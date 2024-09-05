@@ -17,18 +17,28 @@ class Vacancy:
     @classmethod
     def new_vacancy(cls, vacancy_dict: dict) -> "Vacancy":
         """Создаёт новый экземпляр класса Vacancy из словаря"""
-        name = vacancy_dict.get("name")
-        url = vacancy_dict.get("alternate_url")
-        description = vacancy_dict.get('snippet').get('responsibility')
-        if vacancy_dict.get("salary"):
-            if vacancy_dict.get("salary").get("to"):
-                salary = vacancy_dict.get("salary").get("to")
-            elif vacancy_dict.get("salary").get("from"):
-                salary = vacancy_dict.get("salary").get("from")
-        else:
-            salary = 0
-
-        return cls(name, url, description, salary)
+        return cls(**vacancy_dict)
 
     def __str__(self):
         return f"{self.name} (ЗП {self.salary} руб). {self.description}. Ссылка на вакансию: {self.url}"
+
+    def cast_to_object_list(self, vacancies: list[dict]) -> object:
+        """Считывает данные из JSON-файла и на их основе создает объекты классов"""
+        vacancies_list = []
+        for vacancy in vacancies:
+            name = vacancy.get("name")
+            url = vacancy.get("alternate_url")
+            description = vacancy.get('snippet').get('responsibility')
+            if vacancy.get("salary"):
+                if vacancy.get("salary").get("to"):
+                    salary = vacancy.get("salary").get("to")
+                elif vacancy.get("salary").get("from"):
+                    salary = vacancy.get("salary").get("from")
+            else:
+                salary = 0
+
+            vac = {"name": name, "url": url, "description": description, "salary": salary}
+            vacancies_list.append(vac)
+
+        return vacancies_list
+    
