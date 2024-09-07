@@ -48,7 +48,7 @@ class Vacancy:
         return self.salary <= sal
 
     def cast_to_object_list(self, vacancies: list[dict]) -> object:
-        """Считывает данные из JSON-файла и на их основе создает объекты классов"""
+        """Возвращает список словарей с данными о вакансиях с ключами name, url, description, salary"""
         vacancies_list = []
         for vacancy in vacancies:
             name = vacancy.get("name")

@@ -28,8 +28,8 @@ class VacancyWorkerHH(VacancyWorker):
         if vacancy.get("name").lower() not in [vac.get("name").lower() for vac in self.vacancies]:
             self.vacancies.append(vacancy)
 
-    def get_vacancy_by_criterion(self, word: str):
-        """Получает вакансии по критерию"""
+    def get_vacancy_by_word(self, word: str):
+        """Получает вакансии по поисковому слову"""
         searched_vacancies = [vac for vac in self.vacancies if
                               word in vac["name"].lower or word in vac["description"].lower()]
 
