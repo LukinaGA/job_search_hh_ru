@@ -6,13 +6,7 @@ from abc import ABC, abstractmethod
 class Parser(ABC):
 
     @abstractmethod
-    def __api_connect(self):
-        """Подключение к API"""
-        pass
-
-    @abstractmethod
     def load_vacancies(self, keyword):
-        """Получает вакансии по ключевому слову"""
         pass
 
 
@@ -20,12 +14,13 @@ class HeadHunterAPI(Parser):
     """Класс для работы с API HeadHunter"""
 
     def __init__(self):
+        """Инициализатор класса HeadHunterAPI"""
         self.__url = 'https://api.hh.ru/vacancies'
         self.__headers = {'User-Agent': 'HH-User-Agent'}
         self.__params = {'text': '', 'page': 0, 'per_page': 100}
-        self.vacancies = []
+        self.__vacancies = []
 
-    def _Parser__api_connect(self):
+    def __api_connect(self):
         """Подключение к API hh.ru"""
         response = requests.get(self.__url, headers=self.__headers, params=self.__params)
         if response.status_code == 200:
@@ -37,13 +32,35 @@ class HeadHunterAPI(Parser):
         """Получение вакансий по ключевому слову"""
         self.__params['text'] = keyword
         while self.__params.get('page') != 20:
-            response = self._Parser__api_connect()
+            response = self.__api_connect()
             if response:
                 vacancies = response.json()['items']
-                self.vacancies.extend(vacancies)
+                self.__vacancies.extend(vacancies)
                 self.__params['page'] += 1
             else:
-                self.vacancies = []
                 break
 
-        return self.vacancies
+        vacancies_list = []
+
+        if self.__vacancies:
+
+            # получение списка словарей с ключами name, url, requirement, responsibility, salary
+            for vacancy in self.__vacancies:
+                name = vacancy.get("name")
+                url = vacancy.get("alternate_url")
+                requirement = vacancy.get("snippet").get("requirement")
+                responsibility = vacancy.get("snippet").get("responsibility")
+
+                if vacancy.get("salary"):
+                    if vacancy.get("salary").get("to"):
+                        salary = vacancy.get("salary").get("to")
+                    elif vacancy.get("salary").get("from"):
+                        salary = vacancy.get("salary").get("from")
+                else:
+                    salary = 0
+
+                vac = {"name": name, "url": url, "requirement": requirement, "responsibility": responsibility,
+                       "salary": salary}
+                vacancies_list.append(vac)
+
+        return vacancies_list
