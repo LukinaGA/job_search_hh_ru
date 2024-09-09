@@ -1,10 +1,10 @@
-from src.utils import get_vacancies_by_salary_from, get_top_vacancies
 from src.head_hunter_api import HeadHunterAPI
 from src.saver import JSONSaver
+from src.utils import get_top_vacancies, get_vacancies_by_salary_from
 from src.vacancy import Vacancy
 
 
-def user_interaction():
+def user_interaction() -> None:
     """Функция для взаимодействия с пользователем"""
     search_query = input("Введите поисковый запрос: ")
     print(f"Пожалуйста, подождите. Идёт поиск вакансий по запросу <{search_query}>...\n")
@@ -77,9 +77,13 @@ def user_interaction():
             print()
 
     elif action == 5:
-        vacancy = Vacancy(input("Введите название: "), input("Введите ссылку на вакансию: "),
-                          input("Введите требования к работе: "), input("Введите рабочие обязанности: "),
-                          int(input("Введите зарплату: ")))
+        vacancy = Vacancy(
+            input("Введите название: "),
+            input("Введите ссылку на вакансию: "),
+            input("Введите требования к работе: "),
+            input("Введите рабочие обязанности: "),
+            int(input("Введите зарплату: ")),
+        )
         saver.add_vacancy(vacancy)
 
     elif action == 6:
