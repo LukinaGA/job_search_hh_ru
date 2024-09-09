@@ -1,6 +1,3 @@
-import json
-from json import JSONDecodeError
-
 from src.vacancy import Vacancy
 
 
