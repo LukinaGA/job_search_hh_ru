@@ -53,16 +53,20 @@ class JSONSaver(BaseSaver):
             vacancies_list.append(vacancy.to_dict())
             self.__save_to_file(vacancies_list)
 
-    def del_vacancy(self, vacancy: Vacancy) -> None:
+    def add_vacancies(self, vacancies: list[dict]) -> None:
+        """Добавляет вакансии в файл"""
+        self.__save_to_file(vacancies)
+
+    def del_vacancy(self, url: str) -> None:
         """Удаляет вакансию из файла"""
         vacancies_list = self.__read_file()
         for index, vac in enumerate(vacancies_list):
-            if vac["url"] == vacancy.url:
+            if vac["url"] == url:
                 vacancies_list.pop(index)
 
         self.__save_to_file(vacancies_list)
 
-    def get_vacancy_by_vacancy_name(self, word):
+    def get_vacancy_by_vacancy_name(self, word: str) -> list[Vacancy]:
         """Возвращает список вакансий по ключевому слову в названии вакансии"""
         found_vacancies = []
 
@@ -70,14 +74,4 @@ class JSONSaver(BaseSaver):
             if word in vac.get("name").lower():
                 found_vacancies.append(vac)
 
-        return found_vacancies
-
-    def get_vacancy_by_requirement(self, word: str) -> list[dict]:
-        """Возвращает список вакансий по ключевому слову в требованиях"""
-        found_vacancies = []
-
-        for vac in self.__read_file():
-            if word in vac.get("requirement"):
-                found_vacancies.append(vac)
-
-        return found_vacancies
+        return Vacancy.cast_to_object_list(found_vacancies)

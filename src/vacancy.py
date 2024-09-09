@@ -26,7 +26,7 @@ class Vacancy:
     def __str__(self):
         """Метод строкового предсиавления вакансий"""
 
-        return (f"{self.name} (ЗП: {self.salary}).\nТребования: {self.requirement}.\n"
+        return (f"{self.name} (Зарплата: {self.salary if self.salary else 'не указана'}).\nТребования: {self.requirement}.\n"
                 f"Обязанности: {self.responsibility}.\nСсылка на вакансию: {self.url}")
 
     @classmethod

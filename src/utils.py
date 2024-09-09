@@ -1,10 +1,13 @@
+import json
+from json import JSONDecodeError
+
 from src.vacancy import Vacancy
 
 
-def get_vacancies_by_salary_range(vacancies: list[Vacancy], salary_from: int, salary_to: int) -> list[Vacancy]:
+def get_vacancies_by_salary_from(vacancies: list[Vacancy], salary_from: int) -> list[Vacancy]:
     """Возвращает список вакансий в заданном диапазоне зарплат"""
 
-    return [vac for vac in vacancies if salary_from <= vac.salary <= salary_to]
+    return [vac for vac in vacancies if vac.salary >= salary_from]
 
 
 def sort_vacancies_by_salary(vacancies: list[Vacancy]) -> list[Vacancy]:
