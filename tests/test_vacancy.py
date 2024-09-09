@@ -24,36 +24,51 @@ def test_cast_to_object_list_empty_list():
 
 def test_vacancy_str_salary_0():
     vac = Vacancy("Разработчик", "https://hh", "требования", "обязанности")
-    assert str(vac) == ("Разработчик (Зарплата: не указана).\nТребования: требования.\nОбязанности: обязанности.\nСсылка на вакансию: https://hh")
+    assert str(vac) == (
+        "Разработчик (Зарплата: не указана).\nТребования: требования.\n"
+        "Обязанности: обязанности.\nСсылка на вакансию: https://hh"
+    )
 
 
 def test_vacancy_str():
     vac = Vacancy("Разработчик", "https://hh", "требования", "обязанности", 10000)
-    assert str(vac) == ("Разработчик (Зарплата: 10000).\nТребования: требования.\nОбязанности: обязанности.\nСсылка на вакансию: https://hh")
+    assert str(vac) == (
+        "Разработчик (Зарплата: 10000).\nТребования: требования.\n"
+        "Обязанности: обязанности.\nСсылка на вакансию: https://hh"
+    )
 
 
 def test_vacancy_eq(vacancies_objects):
     vac = Vacancy("Разработчик", "https://hh", "требования", "обязанности")
     assert vacancies_objects[0] != vacancies_objects[1]
     assert vacancies_objects[1] == vac
-    assert vacancies_objects[2] == 50000.0
 
 
 def test_vacancy_lt(vacancies_objects):
     assert vacancies_objects[0] > vacancies_objects[1]
     assert vacancies_objects[2] < vacancies_objects[0]
-    assert vacancies_objects[2] < 60000.0
 
 
 def test_vacancy_le(vacancies_objects):
     assert vacancies_objects[0] >= vacancies_objects[1]
     assert vacancies_objects[2] <= vacancies_objects[0]
-    assert vacancies_objects[2] <= 50000.0
 
 
 def test_vacancy_to_dict(vacancies_objects):
     vac = vacancies_objects[0]
-    assert vac.to_dict() == {"name": "Разработчик", "url": "https://hh", "requirement": "требования", "responsibility": "обязанности", "salary": 100000}
+    assert vac.to_dict() == {
+        "name": "Разработчик",
+        "url": "https://hh",
+        "requirement": "требования",
+        "responsibility": "обязанности",
+        "salary": 100000,
+    }
 
     vac = Vacancy("Разработчик", "https://hh", "требования", "обязанности")
-    assert vac.to_dict() == {"name": "Разработчик", "url": "https://hh", "requirement": "требования", "responsibility": "обязанности", "salary": 0}
+    assert vac.to_dict() == {
+        "name": "Разработчик",
+        "url": "https://hh",
+        "requirement": "требования",
+        "responsibility": "обязанности",
+        "salary": 0,
+    }

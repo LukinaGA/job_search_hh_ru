@@ -10,21 +10,21 @@ from src.vacancy import Vacancy
 class BaseSaver(ABC):
 
     @abstractmethod
-    def add_vacancy(self, vacancy):
+    def add_vacancy(self, vacancy: Vacancy) -> None:
         pass
 
     @abstractmethod
-    def get_vacancy_by_vacancy_name(self, word):
+    def get_vacancy_by_vacancy_name(self, word: str) -> list[Vacancy]:
         pass
 
     @abstractmethod
-    def del_vacancy(self, vacancy):
+    def del_vacancy(self, url: str) -> None:
         pass
 
 
 class JSONSaver(BaseSaver):
 
-    def __init__(self, filename="vacancies.json"):
+    def __init__(self, filename: str = "vacancies.json") -> None:
         """Инициализатор класса JSONSaver"""
         self.__file_path = os.path.join(DATA_DIR, filename)
 

@@ -1,8 +1,10 @@
 class Vacancy:
     """Класс для представления вакансий"""
+
     __slots__ = ("name", "url", "requirement", "responsibility", "salary")
 
-    def __init__(self, name: str, url: str, requirement: str, responsibility: str, salary=None):
+    def __init__(self, name: str, url: str, requirement: str, responsibility: str,
+                 salary: int | None = None) -> None:
         """Инициализатор класса Vacancy"""
         self.name = name
         self.url = url
@@ -11,7 +13,7 @@ class Vacancy:
         self.salary = self.__salary_validation(salary)
 
     @staticmethod
-    def __salary_validation(salary: int):
+    def __salary_validation(salary: int | float | None) -> int | float | None:
         """Валидация зарплаты"""
         if salary:
             return salary
@@ -23,36 +25,32 @@ class Vacancy:
 
         return [cls(**vac) for vac in vacancies]
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Метод строкового предсиавления вакансий"""
 
-        return (f"{self.name} (Зарплата: {self.salary if self.salary else 'не указана'}).\nТребования: {self.requirement}.\n"
-                f"Обязанности: {self.responsibility}.\nСсылка на вакансию: {self.url}")
+        return (
+            f"{self.name} (Зарплата: {self.salary if self.salary else 'не указана'}).\n"
+            f"Требования: {self.requirement}.\nОбязанности: {self.responsibility}.\nСсылка на вакансию: {self.url}"
+        )
 
-    @classmethod
-    def __verify_data(cls, other):
-        """Проверка типа данных"""
-        if not isinstance(other, (float, Vacancy)):
-            raise TypeError
-
-        return other if isinstance(other, float) else other.salary
-
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         """Метод сравнения вакансий (=)"""
-        sal = self.__verify_data(other)
-        return self.salary == sal
+        return self.salary == other.salary
 
-    def __lt__(self, other):
+    def __lt__(self, other) -> bool:
         """Метод сравнения вакансий (<)"""
-        sal = self.__verify_data(other)
-        return self.salary < sal
+        return self.salary < other.salary
 
-    def __le__(self, other):
+    def __le__(self, other) -> bool:
         """Метод сравнения вакансий (<=)"""
-        sal = self.__verify_data(other)
-        return self.salary <= sal
+        return self.salary <= other.salary
 
-    def to_dict(self):
+    def to_dict(self) -> dict:
         """Возвращает словарь с данными о вакансии из экземпляра класса Vacancy"""
-        return {"name": self.name, "url": self.url, "requirement": self.requirement,
-                "responsibility": self.responsibility, "salary": self.salary}
+        return {
+            "name": self.name,
+            "url": self.url,
+            "requirement": self.requirement,
+            "responsibility": self.responsibility,
+            "salary": self.salary,
+        }
